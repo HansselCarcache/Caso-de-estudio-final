@@ -5,10 +5,13 @@
  */
 package formularios;
 
+import Dao.TblBodegas;
 import Dao.TblProductos;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import modelos.Bodega;
 import modelos.Productos;
 
 /**
@@ -19,7 +22,9 @@ public class FrmMenu extends javax.swing.JFrame {
     List<Productos> productos = new ArrayList();
     DefaultTableModel tbl = new DefaultTableModel();
     TblProductos tblproductos = new TblProductos(productos);
-
+    List<Bodega> bodega = new ArrayList();
+    TblBodegas tblbodegas = new TblBodegas(bodega);
+    List<Productos> productosBodegas = new ArrayList();
     /**
      * Creates new form FrmMenu
      */
@@ -35,6 +40,7 @@ public class FrmMenu extends javax.swing.JFrame {
         productos = lista;
         mostrarTabla();
         this.setLocationRelativeTo(null);
+     
         
     }
     
@@ -75,6 +81,8 @@ public class FrmMenu extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem5 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
@@ -129,6 +137,18 @@ public class FrmMenu extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
+        jMenu3.setText("Bodegas");
+
+        jMenuItem5.setText("Mostrar Bodegas");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem5);
+
+        jMenuBar1.add(jMenu3);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -158,6 +178,7 @@ public class FrmMenu extends javax.swing.JFrame {
         this.setVisible(false);
         agregar.setVisible(true);
         
+        
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -178,6 +199,13 @@ public class FrmMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        FrmBodegas bodega = new FrmBodegas();
+        this.setVisible(false);
+        bodega.setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -217,11 +245,13 @@ public class FrmMenu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblProductos;
     // End of variables declaration//GEN-END:variables
