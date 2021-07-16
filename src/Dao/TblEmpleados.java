@@ -43,7 +43,7 @@ public class TblEmpleados {
             rs = mostrarEmpleados.executeQuery();
             empleados.clear();
             while(rs.next()){
-                empleados.add(new Empleado(rs.getInt("Id"),rs.getString("codigoemp"),rs.getString("clave"),rs.getString("puesto")));
+                empleados.add(new Empleado(rs.getInt("Id"),rs.getString("nombre"),rs.getString("apellidos"),rs.getString("numCelular"),rs.getString("codigoemp"),rs.getString("clave")));
             }
        }catch (Exception ex){
             JOptionPane.showMessageDialog(null, ex.getMessage());

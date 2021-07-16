@@ -11,23 +11,28 @@ package modelos;
  */
 public class Empleado {
     private int Id;
+    private String nombre;
+    private String apellidos;
+    private String numCelular;
     private String codigo;
     private String pwd;
-    private String puestoEmpresa;
+    
 
     public Empleado() {
     }
 
-    public Empleado(int Id, String codigo, String pwd, String puestoEmpresa) {
+    public Empleado(int Id, String nombre, String apellidos, String numCelular, String codigo, String pwd) {
         this.Id = Id;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.numCelular = numCelular;
         this.codigo = codigo;
         this.pwd = pwd;
-        this.puestoEmpresa = puestoEmpresa;
     }
 
     @Override
     public String toString() {
-        return "Empleado{" + "Id=" + Id + ", codigo=" + codigo + ", pwd=" + pwd + ", puestoEmpresa=" + puestoEmpresa + '}';
+        return "Empleado{" + "Id=" + Id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", numCelular=" + numCelular + ", codigo=" + codigo + ", pwd=" + pwd + '}';
     }
 
     public int getId() {
@@ -36,6 +41,30 @@ public class Empleado {
 
     public void setId(int Id) {
         this.Id = Id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public String getNumCelular() {
+        return numCelular;
+    }
+
+    public void setNumCelular(String numCelular) {
+        this.numCelular = numCelular;
     }
 
     public String getCodigo() {
@@ -54,13 +83,7 @@ public class Empleado {
         this.pwd = pwd;
     }
 
-    public String getPuestoEmpresa() {
-        return puestoEmpresa;
-    }
-
-    public void setPuestoEmpresa(String puestoEmpresa) {
-        this.puestoEmpresa = puestoEmpresa;
-    }
+    
     
     
 }

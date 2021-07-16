@@ -6,6 +6,7 @@
 package formularios;
 
 import Dao.Conexion;
+import Dao.TblBodegas;
 import Dao.TblProductos;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import modelos.Bodega;
 import modelos.Productos;
 
 /**
@@ -26,12 +28,19 @@ public class FrmIngresar extends javax.swing.JFrame {
     Connection conn = conex.obtenerConexion();
     List<Productos> productos = new ArrayList();
     TblProductos tblproductos = new TblProductos(productos);
+    List<Bodega> bodegas = new ArrayList();
+    TblBodegas tblbodega = new TblBodegas(bodegas);
     /**
      * Creates new form FrmIngresar
      */
     public FrmIngresar() {
         initComponents();
         this.setLocationRelativeTo(null);
+         cbxBodega.removeAllItems();
+        for(int i=0; i<bodegas.size(); i++){
+            
+            cbxBodega.addItem(bodegas.get(i).getNombre());
+        }
     }
 
     /**
@@ -173,29 +182,23 @@ public class FrmIngresar extends javax.swing.JFrame {
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         try {
             // TODO add your handling code here:
-            if(this.cbxBodega.getSelectedIndex() == 0){
-                PreparedStatement ingresar = conn.prepareStatement("Insert into Productos(Codigo,Nombre,Descripcion,Precio,Estado,idBodega)Values(?,?,?,?,?,?)");
-            ingresar.setInt(1, Integer.parseInt(txtCodigo.getText()));
-            ingresar.setString(2, txtNombre.getText());
-            ingresar.setString(3, txtDescripcion.getText());
-            ingresar.setInt(4, Integer.parseInt(txtPrecio.getText()));
-            ingresar.setInt(5, 1);
-            ingresar.setInt(6, 1);
-            ingresar.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Se ha registrado el producto correctamente");
-            tblproductos.listarRegistro(); 
-            }else{
-               PreparedStatement ingresar = conn.prepareStatement("Insert into Productos(Codigo,Nombre,Descripcion,Precio,Estado,idBodega)Values(?,?,?,?,?,?)");
-            ingresar.setInt(1, Integer.parseInt(txtCodigo.getText()));
-            ingresar.setString(2, txtNombre.getText());
-            ingresar.setString(3, txtDescripcion.getText());
-            ingresar.setInt(4, Integer.parseInt(txtPrecio.getText()));
-            ingresar.setInt(5, 1);
-            ingresar.setInt(6, 2);
-            ingresar.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Se ha registrado el producto correctamente");
-            tblproductos.listarRegistro(); 
+            for(int i = 0; i<bodegas.size();i++){
+                 if(cbxBodega.getSelectedItem() == bodegas.get(i).getNombre()){
+                    PreparedStatement ingresar = conn.prepareStatement("Insert into Productos(Codigo,Nombre,Descripcion,Precio,Estado,idBodega)Values(?,?,?,?,?,?)");
+                    ingresar.setInt(1, Integer.parseInt(txtCodigo.getText()));
+                    ingresar.setString(2, txtNombre.getText());
+                    ingresar.setString(3, txtDescripcion.getText());
+                    ingresar.setInt(4, Integer.parseInt(txtPrecio.getText()));
+                    ingresar.setInt(5, 1);
+                    ingresar.setInt(6, bodegas.get(i).getId());
+                    ingresar.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Se ha registrado el producto correctamente");
+                    tblproductos.listarRegistro();      
+                 }else{
+                     System.out.println("No se encontraron coincidencias");
+                 }
             }
+
             
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al ingresar el producto");

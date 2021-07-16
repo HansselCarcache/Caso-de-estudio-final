@@ -29,7 +29,7 @@ public class TblProductos {
         this.productos = lista;
         conn = conex.obtenerConexion();
         try{
-            mostrarProductos = conn.prepareStatement("Select * from Productos");
+            mostrarProductos = conn.prepareStatement("Select * from Productos where Estado=1");
         }
          catch(SQLException ex){
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", 0);

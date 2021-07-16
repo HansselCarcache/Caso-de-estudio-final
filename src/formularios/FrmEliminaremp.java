@@ -48,14 +48,16 @@ public class FrmEliminaremp extends javax.swing.JFrame {
     
     
     private void mostrarTabla(){
-        String[] titulos = {"ID empleado","Codigo de empleado","Puesto"};
+        String[] titulos = {"ID empleado","Codigo de empleado","Nombre","Apellidos","Numero celular"};
         tbl.setColumnIdentifiers(titulos);
         this.tblEmpleado.setModel(tbl);
         for (Empleado empleados: empleados){
-            Object[] datos = new Object[3];
+            Object[] datos = new Object[5];
             datos[0] = empleados.getId();
             datos[1] = empleados.getCodigo();
-            datos[2] = empleados.getPuestoEmpresa();
+            datos[2] = empleados.getNombre();
+            datos[3] = empleados.getApellidos();
+            datos[4] = empleados.getNumCelular();
             tbl.addRow(datos);
             
         }
@@ -74,22 +76,20 @@ public class FrmEliminaremp extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
-        cbxPuesto = new javax.swing.JComboBox<>();
         btnEliminar = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         txtIdempleado = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblEmpleado = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Codigo del empleado");
 
-        jLabel2.setText("Puesto del empleado");
-
-        cbxPuesto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Limpieza", "Gerente" }));
+        jLabel2.setText("Nombre:");
 
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -127,9 +127,9 @@ public class FrmEliminaremp extends javax.swing.JFrame {
                             .addComponent(jLabel4))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cbxPuesto, 0, 136, Short.MAX_VALUE)
-                            .addComponent(txtCodigo)
-                            .addComponent(txtIdempleado))))
+                            .addComponent(txtCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+                            .addComponent(txtIdempleado)
+                            .addComponent(txtNombre))))
                 .addContainerGap(100, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -146,7 +146,7 @@ public class FrmEliminaremp extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(cbxPuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEliminar)
@@ -213,15 +213,25 @@ public class FrmEliminaremp extends javax.swing.JFrame {
         // TODO add your handling code here:
         try{
             if(this.txtIdempleado.getText().equals("")){
-                JOptionPane.showMessageDialog(null, "Elija el empleado que desea eliminar primeramente"); 
+                JOptionPane.showMessageDialog(null, "Elija el empleado que desea eliminar primeramente");
+               
             }else{
-               PreparedStatement eliminar = conn.prepareStatement("Delete from Empleado Where Id='"+txtIdempleado.getText()+"'");
-            eliminar.executeUpdate();
-            tbl.setNumRows(0);
-            tblempleados.listarEmpleado();
-            mostrarTabla();
-            JOptionPane.showMessageDialog(null, "Se ha eliminado el empleado correctamente"); 
+                    if(empleados.size() == 1){
+                       JOptionPane.showMessageDialog(null, "No se puede eliminar el empleado, solo existe un empleado que puede ingresar al sistema.");
+                 }else{
+                    PreparedStatement eliminar = conn.prepareStatement("Delete from Empleado Where Id='"+txtIdempleado.getText()+"'");
+                 eliminar.executeUpdate();
+                 tbl.setNumRows(0);
+                 tblempleados.listarEmpleado();
+                 mostrarTabla();
+                 JOptionPane.showMessageDialog(null, "Se ha eliminado el empleado correctamente"); 
+                 txtIdempleado.setText("");
+                 txtCodigo.setText("");
+                 txtNombre.setText("");
+                 } 
             }
+                
+            
             
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error");
@@ -231,7 +241,7 @@ public class FrmEliminaremp extends javax.swing.JFrame {
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
-     FrmLogin frm = new FrmLogin(empleados);
+     FrmMenu frm = new FrmMenu();
      this.setVisible(false);
      frm.setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
@@ -240,10 +250,10 @@ public class FrmEliminaremp extends javax.swing.JFrame {
         // TODO add your handling code here:
         int id = Integer.parseInt(String.valueOf(tbl.getValueAt(tblEmpleado.getSelectedRow(), 0)));
         String codigo = String.valueOf(tbl.getValueAt(tblEmpleado.getSelectedRow(), 1));
-        String puesto = String.valueOf(tbl.getValueAt(tblEmpleado.getSelectedRow(), 2));
+        String nombre = String.valueOf(tbl.getValueAt(tblEmpleado.getSelectedRow(), 2));
         this.txtIdempleado.setText(String.valueOf(id));
         this.txtCodigo.setText(String.valueOf(codigo));
-        this.cbxPuesto.getModel().setSelectedItem(String.valueOf(puesto));
+        this.txtNombre.setText(String.valueOf(nombre));
     }//GEN-LAST:event_tblEmpleadoMouseClicked
 
     /**
@@ -284,7 +294,6 @@ public class FrmEliminaremp extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnRegresar;
-    private javax.swing.JComboBox<String> cbxPuesto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
@@ -294,5 +303,6 @@ public class FrmEliminaremp extends javax.swing.JFrame {
     private javax.swing.JTable tblEmpleado;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtIdempleado;
+    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,7 +6,10 @@
 package formularios;
 
 import Dao.Conexion;
+import Dao.TblBodegas;
 import Dao.TblProductos;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -15,7 +18,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import modelos.Bodega;
 import modelos.Productos;
 
 /**
@@ -28,23 +34,36 @@ public class FrmEliminar extends javax.swing.JFrame {
     List<Productos> productos = new ArrayList();
     DefaultTableModel tbl = new DefaultTableModel();
     TblProductos refresco = new TblProductos(productos);
+    List<Bodega> bodegas = new ArrayList();
+    TblBodegas tblbodega = new TblBodegas(bodegas);
+    List<Productos> productosActivos = new ArrayList();
+    TableRowSorter<DefaultTableModel> trsFiltro;
     /**
      * Creates new form FrmEliminar
      */
     public FrmEliminar() {
         initComponents();
         mostrarTabla();
+        cbxBodega.removeAllItems();
+        for(int i=0; i<bodegas.size(); i++){
+            cbxBodega.addItem(String.valueOf(bodegas.get(i).getId()));
+        }
         this.setLocationRelativeTo(null);
     }
     
      public FrmEliminar(List<Productos> lista) {
         initComponents();
         productos = lista;
-        mostrarTabla();
+        
+        cbxBodega.removeAllItems();
+        for(int i=0; i<bodegas.size(); i++){
+            cbxBodega.addItem(bodegas.get(i).getNombre());
+        }
         this.setLocationRelativeTo(null);
     }
      
      private void mostrarTabla(){
+        tbl.setNumRows(0);
         String[] titulos = {"Id","Codigo","Nombre","Descripcion","Precio","Estado","idBodega"};
         tbl.setColumnIdentifiers(titulos);
         this.tblEstado.setModel(tbl);
@@ -61,6 +80,13 @@ public class FrmEliminar extends javax.swing.JFrame {
             
         }
             
+    }
+     
+     public void Filtro(){
+        int columna = this.cbxBuscar.getSelectedIndex();
+        System.out.println(columna + " " + txtBuscar.getText());
+        trsFiltro.setRowFilter(RowFilter.regexFilter("(?i)"+txtBuscar.getText(), columna));
+        
     }
 
     /**
@@ -86,8 +112,13 @@ public class FrmEliminar extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblEstado = new javax.swing.JTable();
+        jLabel7 = new javax.swing.JLabel();
+        cbxBuscar = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        txtBuscar = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -201,6 +232,53 @@ public class FrmEliminar extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblEstado);
 
+        jLabel7.setText("Buscar por:");
+
+        cbxBuscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Id", "Codigo", "Nombre", "Descripcion" }));
+
+        jLabel8.setText("Buscar:");
+
+        txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBuscarKeyTyped(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cbxBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(91, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(7, 7, 7)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbxBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -217,8 +295,8 @@ public class FrmEliminar extends javax.swing.JFrame {
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -233,12 +311,9 @@ public class FrmEliminar extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnEliminar)
                             .addComponent(jButton2))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 21, Short.MAX_VALUE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         pack();
@@ -270,15 +345,16 @@ public class FrmEliminar extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             // TODO add your handling code here:
-            if(this.txtId.getText().equals("")){
+            if(txtId.getText().equals("")){
                 JOptionPane.showMessageDialog(null, "Elija el producto que desea eliminar primeramente");
             }else{
                PreparedStatement modificar = conn.prepareStatement("Update Productos Set Estado=0 WHERE Id='"+txtId.getText()+"'");
             modificar.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Se ha eliminado el producto correctamente"); 
             tbl.setNumRows(0);
             refresco.listarRegistro();
             mostrarTabla();
-            JOptionPane.showMessageDialog(null, "Se ha eliminado el producto correctamente"); 
             }
        
         } catch (SQLException ex) {
@@ -286,6 +362,19 @@ public class FrmEliminar extends javax.swing.JFrame {
             Logger.getLogger(FrmModificar.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
+        // TODO add your handling code here:
+        txtBuscar.addKeyListener(new KeyAdapter() {
+            public void keyReleased(final KeyEvent e){
+                String cadena = (txtBuscar.getText());
+                txtBuscar.setText(cadena);
+                Filtro();
+            }
+        });
+        trsFiltro = new TableRowSorter(tblEstado.getModel());
+        tblEstado.setRowSorter(trsFiltro);
+    }//GEN-LAST:event_txtBuscarKeyTyped
 
     /**
      * @param args the command line arguments
@@ -325,6 +414,7 @@ public class FrmEliminar extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEliminar;
     private javax.swing.JComboBox<String> cbxBodega;
+    private javax.swing.JComboBox<String> cbxBuscar;
     private javax.swing.JComboBox<String> cbxEstado;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -332,10 +422,14 @@ public class FrmEliminar extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblEstado;
+    private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNombre;
