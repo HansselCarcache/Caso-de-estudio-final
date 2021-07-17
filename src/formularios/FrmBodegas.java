@@ -67,7 +67,7 @@ public class FrmBodegas extends javax.swing.JFrame {
     
     public void Filtro(){
         int columna = this.cbxBuscar.getSelectedIndex();
-        System.out.println(columna + " " + txtBuscar.getText());
+//        System.out.println(columna + " " + txtBuscar.getText());
         trsFiltro.setRowFilter(RowFilter.regexFilter("(?i)"+txtBuscar.getText(), columna));
         
     }
@@ -95,7 +95,7 @@ public class FrmBodegas extends javax.swing.JFrame {
          
         for(int i=0;i<bodegas.size(); i++){
             if(cbxBodega.getSelectedItem() == bodegas.get(i).getNombre()){
-              System.out.println("se parece el "+cbxBodega.getSelectedItem()+" y "+bodegas.get(i).getNombre());
+//              System.out.println("se parece el "+cbxBodega.getSelectedItem()+" y "+bodegas.get(i).getNombre());
                
                 for(int f = 0; i<productos.size(); f++){
                     if(productos.get(f).getEstado()==1){
@@ -108,14 +108,14 @@ public class FrmBodegas extends javax.swing.JFrame {
                         
                     }
                     }else{
-                        System.out.println("estado 0");
+//                        System.out.println("estado 0");
                     }
                     
 
                 }
                 
             }else{
-              System.out.println("nel");
+//              System.out.println("nel");
             }
         }
 
@@ -298,7 +298,7 @@ public class FrmBodegas extends javax.swing.JFrame {
         
         if(bodega1.isEmpty() == false){
           bodega1.clear();
-          System.out.println("se limpio");
+//          System.out.println("se limpio");
             
       }
 
@@ -308,7 +308,7 @@ public class FrmBodegas extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(bodega1.isEmpty() == false){
           bodega1.clear();
-          System.out.println("se limpio");
+//          System.out.println("se limpio");
             
       }
         listarProductosBodega();

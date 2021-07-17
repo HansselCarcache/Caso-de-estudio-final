@@ -146,7 +146,7 @@ public class FrmLogin extends javax.swing.JFrame {
             
             for(Empleado empleado: empleados){
                 if(empleado.getCodigo().equals(txtId.getText()) && empleado.getPwd().equals(txtPass.getText()) && empleado.getNombre().equals(txtNombre.getText())){
-                    System.out.println(empleado.toString());
+//                    System.out.println(empleado.toString());
                    JOptionPane.showMessageDialog(rootPane, "Empleado autenticado con exito","Acceso Autorizado", JOptionPane.INFORMATION_MESSAGE);
                      FrmMenu ingresar = new FrmMenu(productos);
                     this.setVisible(false);
@@ -158,6 +158,7 @@ public class FrmLogin extends javax.swing.JFrame {
                        errores.add(error);
                        if(errores.size() == empleados.size()){
                            JOptionPane.showMessageDialog(rootPane, "Intente nuevamente, no existe registro de este empleado en la base de datos","Acceso Denegado", JOptionPane.ERROR_MESSAGE);
+                           errores.clear();
                        }
                        
                      

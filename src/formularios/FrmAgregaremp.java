@@ -175,7 +175,7 @@ public class FrmAgregaremp extends javax.swing.JFrame {
         // TODO add your handling code here:
         try{
             if(txtPass.getText().equals(txtPass2.getText())){
-                System.out.println("son iguales");
+//                System.out.println("son iguales");
                 PreparedStatement ingresar = conn.prepareStatement("Insert into Empleado(codigoemp,nombre,apellidos,numCelular,clave) values(?,?,?,?,?)");
             ingresar.setString(1, txtId.getText());
             ingresar.setString(2,txtNombre.getText());

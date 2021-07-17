@@ -81,7 +81,7 @@ public class FrmModificar extends javax.swing.JFrame {
     
     public void Filtro(){
         int columna = this.cbxBuscar.getSelectedIndex();
-        System.out.println(columna + " " + txtBuscar.getText());
+//        System.out.println(columna + " " + txtBuscar.getText());
         trsFiltro.setRowFilter(RowFilter.regexFilter("(?i)"+txtBuscar.getText(), columna));
         
     }

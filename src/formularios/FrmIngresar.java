@@ -195,7 +195,7 @@ public class FrmIngresar extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Se ha registrado el producto correctamente");
                     tblproductos.listarRegistro();      
                  }else{
-                     System.out.println("No se encontraron coincidencias");
+//                     System.out.println("No se encontraron coincidencias");
                  }
             }
 
